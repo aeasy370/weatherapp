@@ -8,7 +8,7 @@ from geopy.geocoders import Nominatim
 
 
 def refresh(x):
-    apikey = '2901e1eca64d892114265c998c218830'
+    apikey = ''
     url = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + str(x['lat'])
     url += '&lon=' + str(x['lon']) + '&exclude=minutely,alerts' + '&units=imperial'  + '&appid=' + apikey
     x['url'] = url
@@ -46,7 +46,7 @@ def singleapiref(Info, city):
     return Info, 1
 
 def myapiref(citylist):
-    apikey = '2901e1eca64d892114265c998c218830'
+    apikey = ''
     #print('\n\n\n\n\n\n\n\n\n')
     #print(citylist)
     for x in citylist['Location']:
@@ -65,50 +65,7 @@ def myapiref(citylist):
         x['current'] = response['current']
     return citylist
     
-    # jsonDict = []
-    # for x in citylist:
-    #     if not x['lat'] or not x['lon']:
-    #         l = getcoords(x)
-    #         # print(l)
-    #         jsonDict.append(l)
-
-    # # print(jsonDict)    
-
-    # for x in jsonDict:
-    #     print(x)
-    #     url = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + str(x['lat'])
-    #     url += '&lon=' + str(x['lon']) + '&exclude=minutely,alerts' + '&appid=' + apikey
-    #     x['url'] = url
-    #     # print(Onecall)
-
-    #     # addrcall = 'https://api.myptv.com/geocoding/v1/locations/by-position/{}/{}?language=en'.format(str(x['lat']),str(x['lon']))
-
-    #     # headers = {
-    #     #     'apiKey' : "NjIzZTY2NzE4MjhjNDRiNDg1NmY4ZmZiZjU4MTU0NWM6ZDk5ZTQwODktYTU5Yi00Y2I5LWE0YjgtYTNjMGY4OGZiYTI0"
-    #     # }
-    #     # googleresponse = requests.get(addrcall, headers = headers).json()
-    #     # googleDict = json.loads(json.dumps(googleresponse))
-    #     # city = googleDict['locations'][0]['address']['city'] + ', ' + googleDict['locations'][0]['address']['state']
-    # # print("Onecall :")
-    # print(jsonDict)
-    # # rs = (grequests.get(u) for u in Onecall)
-    # # # print(rs)
-    # # newresponse = grequests.map(rs)
-    # # # print(newresponse)
-    # # jsonDict = json.loads(json.dumps(newresponse))
-    # # print(jsonDict)
-    # # quit()
-    # # text = []
-    # # for x in json.loads
-    # # celsius = (jsonDict['current']['temp'] - 273.15)
-    # # farenheight = (celsius * 9/5) + 32
-    # # weather = jsonDict['current']['weather'][0]['main']
-    # # lon = jsonDict['lon']
-    # # lat = jsonDict['lat']
-
-
-    # # Info = [text, celsius, farenheight, weather,lon,lat]
-    # # return Info
+    
 def getsinglecoords(cityname):
     city = cityname.split()
     city[1] = getstatecode(city[1])
@@ -124,7 +81,7 @@ def getsinglecoords(cityname):
         'hourly': {},
         'weekly': {}
     }
-    http = 'http://api.openweathermap.org/geo/1.0/direct?q=' + cityname + '&appid=' + '2901e1eca64d892114265c998c218830'
+    http = 'http://api.openweathermap.org/geo/1.0/direct?q=' + cityname + '&appid=' + ''
     print(http)
     Newresponse = requests.get(http)
     if not Newresponse:
@@ -174,7 +131,7 @@ def getcoords(cityname):
     l = []
     for _ in cityname:
         http = 'http://api.openweathermap.org/geo/1.0/direct?q=' + cityname['name'] \
-                + '&appid=' + '2901e1eca64d892114265c998c218830'
+                + '&appid=' + ''
         newresponse = requests.get(http)
         if not newresponse:
             return 0
@@ -197,7 +154,7 @@ def getcoords(cityname):
     return l
 
 def getlocation(city):
-    url = 'http://api.openweathermap.org/geo/1.0/reverse?lat={}&lon={}&limit={}&appid={}'.format(city['lat'], city['lon'], 1, '2901e1eca64d892114265c998c218830')
+    url = 'http://api.openweathermap.org/geo/1.0/reverse?lat={}&lon={}&limit={}&appid={}'.format(city['lat'], city['lon'], 1, '')
     response = requests.get(url)
     response = response.json()
     response = json.loads(json.dumps(response))
@@ -318,24 +275,10 @@ def cache_weather():
     data = read_cache()
     data['Location'].append(getcoords('Current Location'))
     data = myapiref(data)
-    # print("\n\n\ndata")
-    # print(data)
-    # l = []
-    # print("\n\n\n")
-    # for x in data['Location']:
-    #     print(x)
-    #     x['hourly'] = hourlyapi(x['lat'], x['lon'])
-    # print("\n\n\n")
-    
-    # lat = [data['Location'][i][str(i+1)]["lat"] for i in range(len(data['Location']))]
-    # lon = [data['Location'][i][str(i+1)]["lon"] for i in range(len(data['Location']))]
-    # shourly = [hourlyapi(lat[i], lon[i], 0) for i in range(len(lat))]
-    # sweekly = [weeklyapi(lat[i], lon[i], 0) for i in range(len(lat))]
-    # return [shourly, sweekly]
 
 
 def hourlyapi(lat, lon, state):
-    url = 'https://api.openweathermap.org/data/2.5/onecall?lat={}&lon={},alerts&appid=2901e1eca64d892114265c998c218830'.format(lat,lon)
+    url = 'https://api.openweathermap.org/data/2.5/onecall?lat={}&lon={},alerts&appid='.format(lat,lon)
     jsonResponse = requests.get(url)
     jsonParse1 = jsonResponse.json()
     jsonDict = json.loads(json.dumps(jsonParse1))
@@ -359,7 +302,7 @@ def hourlyapi(lat, lon, state):
     return hourlyInfo
 
 def weeklyapi(lat,lon, state):
-    url = 'https://api.openweathermap.org/data/2.5/onecall?lat={}&lon={}&exclude=current,minutely,hourly,alerts&appid=2901e1eca64d892114265c998c218830'.format(lat,lon)
+    url = 'https://api.openweathermap.org/data/2.5/onecall?lat={}&lon={}&exclude=current,minutely,hourly,alerts&appid='.format(lat,lon)
     jsonResponse = requests.get(url)
     jsonParse1 = jsonResponse.json()
     jsonDict = json.loads(json.dumps(jsonParse1))
